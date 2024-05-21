@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from vg_app.views import home,inicio,perfil,categorias,pago,comunidad,base,reclutamiento
+from vg_app.views import home,inicio,perfil,categorias,pago,comunidad,Logup,Login,base
 
 
 urlpatterns = [
@@ -27,5 +27,6 @@ urlpatterns = [
     path('categorias',categorias),
     path('pago',pago),
     path('comunidad',comunidad),
-    path('reclutamiento',reclutamiento)
+    path('logup',Logup),
+    path('login',Login)
 ]
