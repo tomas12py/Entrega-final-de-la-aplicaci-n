@@ -4,79 +4,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href = "{% static 'imagenes/css/style.css' %}">
-    <script src="https://kit.fontawesome.com/65eb284639.js" crossorigin="anonymous"></script>
-    <title>Perfil</title>
 </head>
 <body>
     <main>
+      {% for datos_p in perfil_datos%}
       <nav>
-    <ul class="nav">
+    <ul class="nav mx-4">
         <li class="nav-item">
-          <img class = "icono-perfil" src = "{% static 'imagenes/icono.jpg' %}" alt="">
+          <img class = "icono-perfil mt-2" src="{{datos_p.imagen_perfil.url}}" alt="">
         </li>
         <li class="nav-item">
-          <h3 class = "margin-perfil nombre-perfil">Tomas Martinez</h3>
+          <h3 class = "margin-perfil nombre-perfil">{{datos_p.nombre_perfil}}</h3>
         </li>
-        <li class="nav-item">
-          <p class = "codigo-perfil margin-perfil" >a11</p>
-          <li class = "nav-item margin-perfil">
-          <div class="dropdown">
-            <button class="btn btn-success dropdown-toggle button-perfil-config " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-             Configuracion de perfil
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Agregar foto de perfil</a></li>
-              <li><a class="dropdown-item" href="#">Cambiar Nombre</a></li>
-              <li><a class="dropdown-item" href="#">Agregar un sobre mi</a></li>
-            </ul>
-       </li>
+       {% endfor %}
+         <!-- Button trigger modal -->
+      <li class = "nav-item">
+        <button type="button" class="btn bg-success text-white button-config-perfil" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Configuracion perfil
+    </button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ingresa tu informacion</h1>
+        <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class  = "" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="perfil-form">
+        <label class = "" for="nombre-perfil">Ingresa tu nombre</label>
+        <input class = "" type="text" name="nombre_perfil" required>
         </div>
-      </ul>
+        <div class="perfil-form">
+        <label for="sobremi">Ingresa un sobre mi</label>
+        <input type="text" name="sobremi" required>
+        </div>
+        <div class="perfil-form">
+        <label for="github_perfil">Ingresa tu enlace de github</label>
+        <input type="url" name="github_perfil" required>
+        </div>
+        <div class="perfil-form">
+        <label for="correo_perfil">Ingresa tu direccion de correo electronico</label>
+        <input type="email" name="correo_perfil" required>
+        </div>
+        <div class="perfil-form">
+        <input type="file" name="imagen_perfil" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+        <input type="submit" class="btn btn-success " value = "Enviar">
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+</li>
+<li class="nav-item">
+  <span class = "btn btn-success button-config-perfil"><a class= "text-white " href="/proyectos">Agrega un nuevo proyecto</a><span>
+</li>
+<li  class="nav-item">
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button class="btn btn-success button-config-perfil" type="submit">Salir de tu cuenta</button>
+</form>
+</li>
+</ul>
+      {% for datos_p in perfil_datos %}
       <div class="card card-sobre-mi">
         <div class="card-body">
           <h5 class="card-title">Sobre mi</h5>
           <p class="card-text">
-            Soy un desarrollador de videojuegos que tienen varios proyectos propios y experiencia en proyectos grupales
+            {{datos_p.sobremi}}
         </p>
-        <a href="https://github.com/tomas12py" target = "blank"  class="card-link-github"><i class="bi bi-github"></i></a>
-        <a href="mailto: tomi12mc@gmail.com"  class = "card-link-email"><i class="fa-regular fa-envelope"></i></a>
+        <a href="{{datos_p.github_perfil}}" target = "blank"  class="card-link-github"><i class="bi bi-github"></i></a>
+        <a href="mailto: {{datos_p.correo_perfil}}"  class = "card-link-email"><i class="fa-regular fa-envelope"></i></a>
         </div>
       </div>
-      <h5 class = "titulo-proyectos">Estos son mis proyectos</h5>
+      {% endfor %}
+      <h5 class = "titulo-proyectos">Estos son tus proyectos</h5>
+      {% for proyecto_dato in proyecto_datos%}
       <div class="card card-proyectos">
-        <img src="{% static 'imagenes/league-of-legends.avif' %}" class="card-img-top" alt="...">
+        <img src="{{proyecto_dato.archivo_proyecto.url}}" class="card-img-top perfil-img" alt="...">
         <div class="card-body">
-          <h5 class="card-title">League of legends</h5>
-          <p class="card-text">Videojuego 5vs5 donde tendras que destruir el nexo del otro equipo para poder ganar</p>
+          <h5 class="card-title">{{proyecto_dato.titulo_proyecto}}</h5>
+          <p>{{proyecto_dato.descripcion_proyecto}}</p>
+          <p class="card-text">{{proyecto_dato.categoria_proyecto}}</p>
+          <span  class = "btn btn-danger perfil-functions"><a href="eliminar/{{proyecto_dato.id}}" class="text-white">Eliminar proyecto</a></span>
+          <span class = "btn btn-success perfil-functions"><a href="editar/{{proyecto_dato.id}}" class="text-white">Editar proyecto</a></span>
         </div>
       </div>
-      <div class="card card-proyectos">
-        <img src="{% static 'imagenes/fornite.jpg' %}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Fortnite battle royale</h5>
-          <p class="card-text">Videojuego battle royale de 100 jugadores donde el ultimo jugador en pie es el ganador</p>
-        </div>
-      </div>
-      <div class="card card-proyectos">
-        <img src="{% static 'imagenes/assassin.jpg' %}" class="card-img-top card-assassin" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Assassin's Creeed</h5>
-          <p class="card-text">Videojuego de sigilo y parkour para asesinar a tus enemigos</p>
-        </div>
-      </div>
-      <div class="card card-proyectos">
-        <img src="{% static 'imagenes/gta5.jpg' %}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Grand Theft Auto</h5>
-          <p class="card-text">Videojuego basado en la ciudad de los angeles con muchos recursos de armas y automoviles</p>
-        </div>
-      </div>
+      {% endfor %}
     </nav>
     </main>
 </body>

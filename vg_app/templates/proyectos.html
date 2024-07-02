@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block contenido%}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'imagenes/css/style.css' %}">
+</head>
+<body>
+        <form class="form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p class="title text-success">Crea un nuevo proyecto </p>
+                <label>
+                    <input class="input" type="text" placeholder=""  name = "titulo_proyecto" required>
+                    <span>Titulo proyecto</span>
+                </label>        
+            <label>
+                <input class="input" type="text" placeholder="" name = "descripcion_proyecto" required>
+                <span>Descripcion proyecto</span>
+            </label> 
+                
+            <label>
+                <input class="input" type="text" placeholder="" name = "categoria_proyecto" required>
+                <span>categoria_proyecto</span>
+            </label>
+            <label>
+                <input class="input mt-1" type="file" placeholder="" name = "archivo_proyecto" required>
+                <span>Imagen del proyecto</span>
+            </label>
+            <button class="submit bg-success">Enviar</button>
+            <p class="signin">No quieres crear un nuevo proyecto? <a class = "text-success" href="/perfil">Volver</a> </p>
+        </form>
+</body>
+</html>
+{% endblock %}

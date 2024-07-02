@@ -16,17 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from vg_app.views import home,inicio,perfil,categorias,pago,comunidad,Logup,Login,base
-
+from django.conf.urls.static import static
+from django.conf import settings
+from vg_app.views import inicio,perfil,categorias,pago,comunidad,Logup,Proyectos,eliminar,editar_producto,edicion_completada
+from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',inicio),
-    path('inicio',inicio),
+    path('admin/', admin.site.urls), 
+    path('',inicio,name = 'inicio'),
     path('perfil',perfil),
     path('categorias',categorias),
     path('pago',pago),
     path('comunidad',comunidad),
     path('logup',Logup),
-    path('login',Login)
-]
+    path('proyectos',Proyectos),
+    path('login', LoginView.as_view(template_name='login.html')),
+    path('logout', LogoutView.as_view(template_name='inicio.html'),name = 'logout'),
+    path('eliminar/<id>',eliminar),
+    path("editar/<id>",editar_producto),
+    path("edicion-completada/",edicion_completada)
+]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

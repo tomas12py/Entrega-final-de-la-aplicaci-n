@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+{% block contenido %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'imagenes/css/style.css' %}">
+</head>
+<body>
+    <form class="form" method="post" action = "/edicion-completada/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p class="title text-success">Edita este proyecto</p>
+            <label>
+                <input class = "input" type="number"  name="id" value="{{edicion_producto.id}}" placeholder="" readonly required>
+                <span>Id</span>
+            </label>        
+        <label>
+            <input class = "input" type="text" name="titulo_proyecto" value = {{edicion_producto.titulo_proyecto}} placeholder="" required>
+            <span>Nombre del proyecto</span>
+        </label> 
+            
+        <label>
+            <input class = "input" type="text" name = "descripcion_proyecto" value = {{edicion_producto.descripcion_proyecto}} placeholder="" required>
+            <span>Descripcion del proyecto</span>
+        </label>
+        <label>
+            <input class = "input" type="text" name = "categoria_proyecto" value="{{edicion_producto.categoria_proyecto}}" placeholder="">
+            <span>Categoria del proyecto</span>
+        </label>
+        <label>
+            <input class = "input" type="file" name = "archivo_proyecto" value="{{edicion_producto.archivo_proyecto}}" placeholder="" required>
+            <span>Cambia la imagen de tu proyecto</span>
+        </label>
+        <button class="submit bg-success">Enviar</button>
+        <p class="signin">No quieres editar el proyecto? <a class = "text-success" href="/perfil">Volver</a> </p>
+    </form>
+</body>
+</html>
+{% endblock %}
